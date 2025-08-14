@@ -113,7 +113,7 @@ export default function App() {
 
             <audio
                 ref={alarmRef}
-                src={`${import.meta.env.BASE_URL}alarm.mp3`}
+                src={`${import.meta.env.BASE_URL}alarm-audio.mp3`}
                 preload="auto"
             ></audio>
         </div>
