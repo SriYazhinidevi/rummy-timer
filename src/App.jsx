@@ -40,7 +40,6 @@ export default function App() {
     const formatTime = (seconds) =>
         `${Math.floor(seconds / 60)}:${seconds % 60 < 10 ? "0" : ""}${seconds % 60}`;
 
-    // Unlock audio context on first user interaction
     const unlockAudio = () => {
         if (!audioUnlocked) {
             alarmRef.current
@@ -49,17 +48,13 @@ export default function App() {
                     alarmRef.current.pause();
                     alarmRef.current.currentTime = 0;
                     setAudioUnlocked(true);
-                    console.log("Audio unlocked");
                 })
                 .catch((err) => console.warn("Audio unlock failed:", err));
         }
     };
 
     return (
-        <div
-            className="app"
-            onClick={unlockAudio} // any first click unlocks audio
-        >
+        <div className="app" onClick={unlockAudio}>
             <h1 className="header">♠ Rummy Timer ♥</h1>
 
             <div className="card">
@@ -73,7 +68,9 @@ export default function App() {
                     disabled={running}
                 />
 
-                <div className="timer">{formatTime(time)}</div>
+                <div className={`timer ${time <= 5 && running ? "warning" : ""}`}>
+                    {formatTime(time)}
+                </div>
 
                 <div className="buttons">
                     {!running && (
@@ -111,10 +108,9 @@ export default function App() {
                     </button>
                 </div>
 
-                <p className="hint">Your timer will reset automatically when looping</p>
+                <p className="hint">Timer auto-repeats until stopped</p>
             </div>
 
-            {/* Corrected audio path usage */}
             <audio
                 ref={alarmRef}
                 src={`${import.meta.env.BASE_URL}alarm.mp3`}
